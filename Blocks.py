@@ -53,9 +53,12 @@ class Chest(Block):
 class Door(Block):
     def __init__(self, x, y):
         super().__init__(x,y)
-        self.color = (201, 135, 00)
+        self.color = (200, 135, 0)
         self.solid = True
         self.opened = False
+
+    def draw(self, surface):
+        pygame.draw.rect(surface, self.color, self.rect)
 
     def open(self):
         self.opened = True
