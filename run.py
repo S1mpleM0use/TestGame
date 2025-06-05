@@ -2,6 +2,11 @@ import pygame
 import Constants
 import Map
 import Player
+import Blocks
+
+blocks = [Blocks.Floor, Blocks.Door, Blocks.Chest, Blocks.Wall]
+#solid_blocks = [block for block in blocks if block.solid]
+
 
 
 def run():
@@ -10,7 +15,9 @@ def run():
     clock = pygame.time.Clock()
 
     dungeon = Map.DungeonMap(Constants.SCREEN_WIDTH // Constants.TILE_SIZE, Constants.SCREEN_HEIGHT // Constants.TILE_SIZE)
+    #dungeon = Map.DungeonMap()
     dungeon.generate_room()
+
 
 
 
@@ -21,6 +28,7 @@ def run():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
 
             #movement
             if event.type == pygame.KEYDOWN:
@@ -34,6 +42,7 @@ def run():
                     case pygame.K_RIGHT:
                         player.x += 1
                 player.rect.topleft = (player.x * Constants.TILE_SIZE, player.y * Constants.TILE_SIZE)
+                print(player.get_near_blocks('north'))
 
         screen.fill((0,0,0))
         dungeon.draw(screen)
