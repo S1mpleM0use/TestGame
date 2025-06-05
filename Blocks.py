@@ -64,6 +64,7 @@ class Door(Block):
         super().__init__(x,y)
         self.color = (200, 135, 0)
         self.opened = False
+        self.solid = False
 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, self.rect)

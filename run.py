@@ -2,10 +2,6 @@ import pygame
 import Constants
 import Map
 import Player
-import Blocks
-
-blocks = [Blocks.Floor, Blocks.Door, Blocks.Chest, Blocks.Wall]
-#solid_blocks = [block for block in blocks if block.solid]
 
 
 
@@ -21,7 +17,7 @@ def run():
 
 
 
-    player = Player.Player(5, 5, "Test", 10, 100)
+    player = Player.Player(5, 5, "Test", 10, 100, dungeon)
 
     running = True
     while running:
@@ -31,18 +27,25 @@ def run():
 
 
             #movement
+            delta_x = 0
+            delta_y = 0
             if event.type == pygame.KEYDOWN:
                 match event.key:
                     case pygame.K_UP:
-                        player.y -= 1
+                        delta_y -= 1
                     case pygame.K_DOWN:
-                        player.y += 1
+                        delta_y += 1
                     case pygame.K_LEFT:
-                        player.x -= 1
+                        delta_x -= 1
                     case pygame.K_RIGHT:
-                        player.x += 1
+                        delta_x += 1
+                if dungeon.tiles[player.y+delta_y][player.x+delta_x] is None:
+                    player.y += delta_y
+                    player.x += delta_x
+                elif not dungeon.tiles[player.y+delta_y][player.x+delta_x].is_solid():
+                    player.y += delta_y
+                    player.x += delta_x
                 player.rect.topleft = (player.x * Constants.TILE_SIZE, player.y * Constants.TILE_SIZE)
-                print(player.get_near_blocks('north'))
 
         screen.fill((0,0,0))
         dungeon.draw(screen)
